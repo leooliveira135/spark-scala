@@ -3,10 +3,10 @@ package com.sparkTutorial.rdd
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.apache.spark.SparkConf
-import org.apache.spark._
+import org.apache.spark.SparkContext
 
 object WordCount {
-
+                                             
   def main(args: Array[String]) {
 
     Logger.getLogger("org").setLevel(Level.ERROR)
