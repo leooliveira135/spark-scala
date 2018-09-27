@@ -1,6 +1,6 @@
 package com.sparkTutorial.pairRdd.join
 
-import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.{HashPartitioner, SparkConf, SparkContext}
 
 object JoinOperations {
 
@@ -11,6 +11,10 @@ object JoinOperations {
 
         val ages = sc.parallelize(List(("Tom", 29),("John", 22)))
         val addresses = sc.parallelize(List(("James", "USA"), ("John", "UK")))
+
+        val partitioner = new HashPartitioner(20)
+        ages.partitionBy(partitioner)
+        addresses.partitionBy(partitioner)
 
         val join = ages.join(addresses)
         join.saveAsTextFile("out/age_address_join.text")
