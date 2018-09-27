@@ -13,10 +13,12 @@ object StackOverFlowSurvey {
 
     val total = sparkContext.longAccumulator
     val missingSalaryMidPoint = sparkContext.longAccumulator
+    val processedBytes = sparkContext.longAccumulator
 
     val responseRDD = sparkContext.textFile("in/2016-stack-overflow-survey-responses.csv")
 
     val responseFromCanada = responseRDD.filter(response => {
+      processedBytes.add(response.getBytes().length)
       val splits = response.split(Utils.COMMA_DELIMITER, -1)
       total.add(1)
 
@@ -30,5 +32,6 @@ object StackOverFlowSurvey {
     println("Count of responses from Canada: " + responseFromCanada.count())
     println("Total count of responses: " + total.value)
     println("Count of responses missing salary middle point: " + missingSalaryMidPoint.value)
+    println("Number of bytes processed: " + processedBytes.value)
   }
 }
